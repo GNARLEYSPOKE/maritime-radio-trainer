@@ -4,7 +4,8 @@ import { useState, useCallback } from 'react';
 import { phoneticAlphabet, numbers, translateToPhonetic } from '@/lib/referenceData';
 import { viewThemes, palette, ui, accents } from '@/lib/theme';
 import Layout from './Layout';
-import { HeaderGeo } from './GeoShapes';
+import { HeaderGeo, DotGrid } from './GeoShapes';
+import { WaveDivider } from './WaveDivider';
 
 const ALL_CARDS = [
   ...phoneticAlphabet.map(item => ({ front: item.letter, back: item.word, type: 'letter' })),
@@ -42,12 +43,14 @@ export default function PhoneticView({ currentView, onNavigate, onReset }) {
 
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-      <header className={`${t.headerBg} ${t.headerText} py-8 relative overflow-hidden`}>
+      <header className={`${t.headerBg} ${t.headerText} pt-14 pb-0 relative overflow-hidden`}>
         <HeaderGeo variant="phonetic" className="w-full h-full absolute inset-0" />
-        <div className="max-w-5xl mx-auto px-6 relative z-10">
-          <p className={`text-xs uppercase tracking-[0.15em] ${t.headerSubtext} mb-2 font-medium`}>Oral Exam Preparation</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Phonetic Alphabet Trainer</h1>
+        <DotGrid cols={8} rows={4} gap={24} dotSize={1.5} color="#ffffff" opacity={0.03} className="absolute top-6 right-12" />
+        <div className="max-w-5xl mx-auto px-6 relative z-10 pb-12">
+          <p className={`text-xs uppercase tracking-[0.2em] ${t.headerSubtext} mb-3 font-medium`}>Oral Exam Preparation</p>
+          <h1 className="text-4xl font-semibold tracking-tight">Phonetic Alphabet Trainer</h1>
         </div>
+        <WaveDivider />
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-12">

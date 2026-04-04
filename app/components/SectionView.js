@@ -7,7 +7,8 @@ import { PASS_THRESHOLD } from '@/lib/constants';
 import { viewThemes, palette, ui } from '@/lib/theme';
 import Layout from './Layout';
 import QuestionCard from './QuestionCard';
-import { HeaderGeo } from './GeoShapes';
+import { HeaderGeo, DotGrid } from './GeoShapes';
+import { WaveDivider } from './WaveDivider';
 import { useQuiz } from '../hooks/useQuiz';
 
 const SUB_TOPIC_ORDER = ['antennas', 'ais', 'batteries', 'channels', 'mfhf', 'alternatives'];
@@ -49,18 +50,20 @@ export default function SectionView({ currentView, onNavigate, quizScores, setQu
 
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-      <header className={`${t.headerBg} ${t.headerText} py-8 relative overflow-hidden`}>
+      <header className={`${t.headerBg} ${t.headerText} pt-14 pb-0 relative overflow-hidden`}>
         <HeaderGeo variant="study" className="w-full h-full absolute inset-0" />
-        <div className="max-w-5xl mx-auto px-6 relative z-10">
-          <p className={`text-xs uppercase tracking-[0.15em] ${t.headerSubtext} mb-2 font-medium`}>
+        <DotGrid cols={8} rows={4} gap={24} dotSize={1.5} color="#ffffff" opacity={0.03} className="absolute top-6 right-12" />
+        <div className="max-w-5xl mx-auto px-6 relative z-10 pb-12">
+          <p className={`text-xs uppercase tracking-[0.2em] ${t.headerSubtext} mb-3 font-medium`}>
             {isReference ? 'Supplementary' : `Section ${section?.number}`}
           </p>
-          <h1 className="text-3xl font-semibold tracking-tight">
+          <h1 className="text-4xl font-semibold tracking-tight">
             {isReference
               ? (sectionData?.subTopics?.[activeSubTopic]?.title || 'Supplementary Reference')
               : section?.title}
           </h1>
         </div>
+        <WaveDivider />
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-12">
