@@ -332,6 +332,9 @@ Out`
                   <div className={`p-4 rounded-lg mb-6 ${selectedAnswers[currentQuestionIndex] === currentQuestion.correctIndex ? 'bg-green-50 border border-green-300 text-green-800' : 'bg-red-50 border border-red-300 text-red-800'}`}>
                     <p className="font-bold mb-1">{selectedAnswers[currentQuestionIndex] === currentQuestion.correctIndex ? '✓ Correct!' : '✗ Incorrect'}</p>
                     <p>{currentQuestion.explanation}</p>
+                    {currentQuestion.reference && (
+                      <p className="text-xs mt-2 opacity-75 italic">📖 {currentQuestion.reference}</p>
+                    )}
                   </div>
                 )}
                 <div className="flex gap-4 justify-between">
@@ -658,6 +661,9 @@ Out`
                       <p className="text-red-600 text-sm">Your answer: {examAnswers[idx] !== undefined ? q.options[examAnswers[idx]] : 'No answer'}</p>
                       <p className="text-green-700 text-sm font-semibold">Correct: {q.options[q.correctIndex]}</p>
                       <p className="text-gray-500 text-sm mt-1">{q.explanation}</p>
+                      {q.reference && (
+                        <p className="text-xs text-gray-400 mt-1 italic">📖 {q.reference}</p>
+                      )}
                     </div>
                   );
                 })}
