@@ -1,0 +1,20 @@
+{
+  "name": "maritime-radio-trainer",
+  "version": "1.0.0",
+  "description": "Study guide and quiz platform for Canadian Maritime Radio Course (ROC(M) certification)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "next": "^14.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0"
+  }
+}
