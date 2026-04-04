@@ -3,6 +3,7 @@
 import { sections } from '@/lib/quizData';
 import { PASS_THRESHOLD } from '@/lib/constants';
 import NavBar from './NavBar';
+import Footer from './Footer';
 
 export default function HomeView({ currentView, onNavigate, quizScores, onStartStudy, onReset }) {
   return (
@@ -55,10 +56,7 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
           </div>
         )}
       </main>
-      <footer className="bg-blue-950 text-blue-300 py-6 text-center text-sm">
-        <p>Maritime Radio Trainer by Sail Canada Instructor Chris Bryce</p>
-        <p className="text-blue-400 mt-1">Study aid only. Not a substitute for the official CPS-ECP Maritime Radio Course.</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

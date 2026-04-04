@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { phoneticAlphabet, numbers, translateToPhonetic } from '@/lib/referenceData';
 import NavBar from './NavBar';
+import Footer from './Footer';
 
 const ALL_CARDS = [
   ...phoneticAlphabet.map(item => ({ front: item.letter, back: item.word, type: 'letter' })),
@@ -127,6 +128,7 @@ export default function PhoneticView({ currentView, onNavigate, onReset }) {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { distressCalls } from '@/lib/referenceData';
 import NavBar from './NavBar';
+import Footer from './Footer';
 
 const CALL_TYPES = [
   { key: 'mayday', label: 'MAYDAY', color: 'red' },
@@ -196,6 +197,7 @@ Out`
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

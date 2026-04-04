@@ -3,6 +3,7 @@
 import { sections } from '@/lib/quizData';
 import { PASS_THRESHOLD, LOW_TIME_WARNING_SECONDS } from '@/lib/constants';
 import NavBar from './NavBar';
+import Footer from './Footer';
 import QuestionCard from './QuestionCard';
 import { useExam } from '../hooks/useExam';
 
@@ -78,6 +79,7 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
             </button>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -108,6 +110,7 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
             </button>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -173,6 +176,7 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 }

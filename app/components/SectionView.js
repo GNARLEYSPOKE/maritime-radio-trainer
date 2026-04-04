@@ -5,6 +5,7 @@ import { sections, quizzes } from '@/lib/quizData';
 import { sectionContent } from '@/lib/sectionContent';
 import { PASS_THRESHOLD } from '@/lib/constants';
 import NavBar from './NavBar';
+import Footer from './Footer';
 import QuestionCard from './QuestionCard';
 import { useQuiz } from '../hooks/useQuiz';
 
@@ -128,6 +129,7 @@ export default function SectionView({ currentView, onNavigate, quizScores, setQu
           ) : null}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
