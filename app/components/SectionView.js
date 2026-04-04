@@ -7,6 +7,7 @@ import { PASS_THRESHOLD } from '@/lib/constants';
 import { viewThemes, palette, ui } from '@/lib/theme';
 import Layout from './Layout';
 import QuestionCard from './QuestionCard';
+import { HeaderGeo } from './GeoShapes';
 import { useQuiz } from '../hooks/useQuiz';
 
 export default function SectionView({ currentView, onNavigate, quizScores, setQuizScores, onReset }) {
@@ -40,8 +41,9 @@ export default function SectionView({ currentView, onNavigate, quizScores, setQu
 
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-      <header className={`${t.headerBg} ${t.headerText} py-8`}>
-        <div className="max-w-5xl mx-auto px-6">
+      <header className={`${t.headerBg} ${t.headerText} py-8 relative overflow-hidden`}>
+        <HeaderGeo variant="study" className="w-full h-full absolute inset-0" />
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
           <p className={`text-xs uppercase tracking-[0.15em] ${t.headerSubtext} mb-2 font-medium`}>Section {section?.number}</p>
           <h1 className="text-3xl font-semibold tracking-tight">{section?.title}</h1>
         </div>

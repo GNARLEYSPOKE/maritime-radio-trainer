@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { distressCalls } from '@/lib/referenceData';
 import { viewThemes, palette, ui, accents } from '@/lib/theme';
 import Layout from './Layout';
+import { HeaderGeo, GeoDivider } from './GeoShapes';
 
 const CALL_TYPES = [
   { key: 'mayday', label: 'MAYDAY' },
@@ -97,8 +98,9 @@ Out`
 
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-      <header className={`${t.headerBg} ${t.headerText} py-8`}>
-        <div className="max-w-5xl mx-auto px-6">
+      <header className={`${t.headerBg} ${t.headerText} py-8 relative overflow-hidden`}>
+        <HeaderGeo variant="distress" className="w-full h-full absolute inset-0" />
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
           <p className={`text-xs uppercase tracking-[0.15em] ${t.headerSubtext} mb-2 font-medium`}>Emergency Procedures</p>
           <h1 className="text-3xl font-semibold tracking-tight">Distress Call Builder</h1>
         </div>
@@ -174,7 +176,8 @@ Out`
           </div>
         </div>
 
-        <div className={`mt-12 ${ui.card} ${ui.cardPadding}`}>
+        <GeoDivider className="my-12" />
+        <div className={`${ui.card} ${ui.cardPadding}`}>
           <h3 className={`font-medium text-[${palette.textDark}] text-sm mb-6`}>Quick Reference: When to Use Each Signal</h3>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="p-5 rounded border-l-2 border-[#7A3B3B] bg-[#F7EFEF]">

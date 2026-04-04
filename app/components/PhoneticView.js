@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { phoneticAlphabet, numbers, translateToPhonetic } from '@/lib/referenceData';
 import { viewThemes, palette, ui, accents } from '@/lib/theme';
 import Layout from './Layout';
+import { HeaderGeo } from './GeoShapes';
 
 const ALL_CARDS = [
   ...phoneticAlphabet.map(item => ({ front: item.letter, back: item.word, type: 'letter' })),
@@ -41,8 +42,9 @@ export default function PhoneticView({ currentView, onNavigate, onReset }) {
 
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-      <header className={`${t.headerBg} ${t.headerText} py-8`}>
-        <div className="max-w-5xl mx-auto px-6">
+      <header className={`${t.headerBg} ${t.headerText} py-8 relative overflow-hidden`}>
+        <HeaderGeo variant="phonetic" className="w-full h-full absolute inset-0" />
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
           <p className={`text-xs uppercase tracking-[0.15em] ${t.headerSubtext} mb-2 font-medium`}>Oral Exam Preparation</p>
           <h1 className="text-3xl font-semibold tracking-tight">Phonetic Alphabet Trainer</h1>
         </div>

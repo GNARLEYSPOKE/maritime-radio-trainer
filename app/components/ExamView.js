@@ -4,6 +4,7 @@ import { sections } from '@/lib/quizData';
 import { PASS_THRESHOLD, LOW_TIME_WARNING_SECONDS } from '@/lib/constants';
 import { viewThemes, palette, ui } from '@/lib/theme';
 import Layout from './Layout';
+import { HeaderGeo } from './GeoShapes';
 import QuestionCard from './QuestionCard';
 import { useExam } from '../hooks/useExam';
 
@@ -20,8 +21,9 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
     const passed = examResults.passed;
     return (
       <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-        <header className={`${passed ? 'bg-[#3B5A4A]' : 'bg-[#7A3B3B]'} text-white py-8`}>
-          <div className="max-w-5xl mx-auto px-6">
+        <header className={`${passed ? 'bg-[#3B5A4A]' : 'bg-[#7A3B3B]'} text-white py-8 relative overflow-hidden`}>
+          <HeaderGeo variant="exam" className="w-full h-full absolute inset-0" />
+          <div className="max-w-5xl mx-auto px-6 relative z-10">
             <p className="text-xs uppercase tracking-[0.15em] text-white/50 mb-2 font-medium">Exam Complete</p>
             <h1 className="text-3xl font-semibold tracking-tight">{passed ? 'Congratulations' : 'Keep Studying'}</h1>
           </div>
@@ -86,8 +88,9 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
   if (!examStarted) {
     return (
       <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-        <header className={`${t.headerBg} ${t.headerText} py-8`}>
-          <div className="max-w-5xl mx-auto px-6">
+        <header className={`${t.headerBg} ${t.headerText} py-8 relative overflow-hidden`}>
+          <HeaderGeo variant="exam" className="w-full h-full absolute inset-0" />
+          <div className="max-w-5xl mx-auto px-6 relative z-10">
             <p className={`text-xs uppercase tracking-[0.15em] ${t.headerSubtext} mb-2 font-medium`}>Written Examination</p>
             <h1 className="text-3xl font-semibold tracking-tight">Practice Exam</h1>
           </div>
