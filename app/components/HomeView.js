@@ -9,17 +9,26 @@ import { HeaderGeo, GeoDivider, Diamond, Triangle, Circle, HalfCircle, DotGrid }
 export default function HomeView({ currentView, onNavigate, quizScores, onStartStudy, onReset }) {
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-      {/* Hero — asymmetric with geometric decoration */}
+      {/* Hero — title left, radio right */}
       <header className={`bg-[${palette.navy}] text-white py-20 relative overflow-hidden`}>
         <HeaderGeo variant="home" className="w-full h-full absolute inset-0" />
-        <div className="max-w-5xl mx-auto px-6 relative z-10">
-          <div className="flex items-center gap-3 mb-4">
-            <HalfCircle size={20} color={palette.coral} />
-            <Diamond size={10} color={palette.mustard} />
-            <Circle size={8} color={palette.teal} />
+        <div className="max-w-5xl mx-auto px-6 relative z-10 flex items-center justify-between gap-12">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-4">
+              <HalfCircle size={20} color={palette.coral} />
+              <Diamond size={10} color={palette.mustard} />
+              <Circle size={8} color={palette.teal} />
+            </div>
+            <h1 className="text-5xl font-semibold tracking-tight mb-3">Maritime Radio Trainer</h1>
+            <p className="text-white/50 text-lg">An unofficial Canadian ROC(M) certification study guide.</p>
           </div>
-          <h1 className="text-5xl font-semibold tracking-tight mb-3">Maritime Radio Trainer</h1>
-          <p className="text-white/50 text-lg">An unofficial Canadian ROC(M) certification study guide.</p>
+          <div className="hidden md:block flex-shrink-0">
+            <img
+              src="/vhf-radio.webp"
+              alt="ICOM IC-M510 VHF Marine Radio on Channel 16"
+              className="w-64 drop-shadow-2xl opacity-90"
+            />
+          </div>
         </div>
       </header>
 
