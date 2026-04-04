@@ -104,7 +104,7 @@ Out`
         <DotGrid cols={8} rows={4} gap={24} dotSize={1.5} color="#ffffff" opacity={0.03} className="absolute top-6 right-12" />
         <div className="max-w-5xl mx-auto px-6 relative z-10 pb-12">
           <p className={`text-xs uppercase tracking-[0.2em] ${t.headerSubtext} mb-3 font-medium`}>Emergency Procedures</p>
-          <h1 className="text-4xl font-semibold tracking-tight">Distress Call Builder</h1>
+          <h1 className="font-display text-4xl font-semibold tracking-tight">Distress Call Builder</h1>
         </div>
         <WaveDivider />
       </header>

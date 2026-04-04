@@ -79,6 +79,11 @@ a, button, input, select, textarea {
   animation: float 6s ease-in-out infinite;
 }
 
+/* ── Display serif for headings ── */
+.font-display {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+
 /* Custom scrollbar — muted navy */
 ::-webkit-scrollbar {
   width: 6px;

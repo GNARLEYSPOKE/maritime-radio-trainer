@@ -57,7 +57,7 @@ export default function SectionView({ currentView, onNavigate, quizScores, setQu
           <p className={`text-xs uppercase tracking-[0.2em] ${t.headerSubtext} mb-3 font-medium`}>
             {isReference ? 'Supplementary' : `Section ${section?.number}`}
           </p>
-          <h1 className="text-4xl font-semibold tracking-tight">
+          <h1 className="font-display text-4xl font-semibold tracking-tight">
             {isReference
               ? (sectionData?.subTopics?.[activeSubTopic]?.title || 'Supplementary Reference')
               : section?.title}

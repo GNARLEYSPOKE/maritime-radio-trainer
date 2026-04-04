@@ -8,75 +8,101 @@ import { Diamond, Triangle, Circle, HalfCircle, DotGrid, GeoDivider } from './Ge
 import { WaveDivider, HorizonLine } from './WaveDivider';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
+const QUICK_LINKS = [
+  { key: 'study', label: 'Study & Quiz', sub: '9 sections · 92 questions', color: palette.teal, icon: '◐' },
+  { key: 'phonetic', label: 'Phonetic Trainer', sub: 'Oral exam prep', color: '#5B4A6B', icon: '△' },
+  { key: 'distress', label: 'Distress Calls', sub: 'MAYDAY · PAN PAN · SECURITE', color: palette.coral, icon: '◆' },
+  { key: 'exam', label: 'Practice Exam', sub: '60 questions · 60 minutes', color: '#3B5A4A', icon: '●' },
+];
+
 export default function HomeView({ currentView, onNavigate, quizScores, onStartStudy, onReset }) {
   const revealRef = useScrollReveal();
+
+  function handleQuickLink(key) {
+    if (key === 'study') onStartStudy();
+    else onNavigate(key);
+  }
 
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
       <div ref={revealRef}>
         {/* ════════════════════════════════════════════
-            HERO — animated gradient, floating radio, atmosphere
+            HERO — compact, animated gradient, floating radio
             ════════════════════════════════════════════ */}
-        <header className="hero-gradient text-white pt-24 pb-0 relative overflow-hidden">
-          {/* Horizon lines for depth */}
+        <header className="hero-gradient text-white pt-14 pb-0 relative overflow-hidden">
           <HorizonLine className="absolute bottom-24 left-0 right-0 opacity-60" />
-
-          {/* Subtle dot pattern */}
           <DotGrid cols={12} rows={6} gap={28} dotSize={1.5} color="#ffffff" opacity={0.04}
             className="absolute top-12 left-1/2 -translate-x-1/2" />
 
           <div className="max-w-5xl mx-auto px-6 relative z-10">
-            <div className="flex items-center justify-between gap-12 pb-16">
+            <div className="flex items-center justify-between gap-12 pb-10">
               {/* Left — text */}
               <div className="flex-1 max-w-xl">
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-3 mb-4">
                   <HalfCircle size={16} color={palette.coral} />
                   <Diamond size={8} color={palette.mustard} />
                   <Circle size={6} color={palette.teal} />
                   <div className={`h-px flex-1 bg-white/10 ml-2`}></div>
                 </div>
 
-                <h1 className="text-6xl md:text-7xl font-semibold tracking-tight leading-[0.95] mb-6">
+                <h1 className="font-display text-5xl md:text-6xl font-semibold tracking-tight leading-[0.95] mb-4">
                   Maritime<br />
                   <span className="text-white/60">Radio Trainer</span>
                 </h1>
 
-                <p className="text-white/40 text-lg leading-relaxed mb-8 max-w-md">
+                <p className="text-white/40 text-base leading-relaxed mb-6 max-w-md">
                   An unofficial Canadian ROC(M) certification study guide.
                 </p>
 
                 <div className="flex gap-3">
-                  <button onClick={onStartStudy} className="bg-white text-[#1A2744] font-medium px-8 py-3.5 rounded hover:bg-white/90 transition text-sm">
+                  <button onClick={onStartStudy} className="bg-white text-[#1A2744] font-medium px-8 py-3 rounded hover:bg-white/90 transition text-sm">
                     Start Studying
                   </button>
-                  <button onClick={() => onNavigate('exam')} className="border border-white/20 text-white/70 font-medium px-8 py-3.5 rounded hover:bg-white/10 hover:text-white transition text-sm">
+                  <button onClick={() => onNavigate('exam')} className="border border-white/20 text-white/70 font-medium px-8 py-3 rounded hover:bg-white/10 hover:text-white transition text-sm">
                     Practice Exam
                   </button>
                 </div>
               </div>
 
-              {/* Right — floating radio with atmosphere */}
+              {/* Right — floating radio */}
               <div className="hidden lg:block flex-shrink-0 relative">
                 <div className="absolute -inset-12">
-                  <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-[${palette.teal}]/8 blur-[80px]`}></div>
-                  <div className={`absolute top-1/4 left-1/3 w-32 h-32 rounded-full bg-[${palette.coral}]/6 blur-[60px]`}></div>
+                  <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-[${palette.teal}]/8 blur-[80px]`}></div>
+                  <div className={`absolute top-1/4 left-1/3 w-28 h-28 rounded-full bg-[${palette.coral}]/6 blur-[60px]`}></div>
                 </div>
-                <HalfCircle size={80} color={palette.coral} rotate={-30} className="absolute -top-6 -left-8 opacity-12" />
-                <Diamond size={20} color={palette.mustard} className="absolute bottom-8 -left-6 opacity-20" />
-                <Triangle size={14} color={palette.teal} rotate={25} className="absolute top-4 -right-4 opacity-15" />
-                <DotGrid cols={3} rows={3} gap={12} dotSize={2} color="#ffffff" opacity={0.1} className="absolute -bottom-4 right-0" />
+                <HalfCircle size={60} color={palette.coral} rotate={-30} className="absolute -top-4 -left-6 opacity-12" />
+                <Diamond size={16} color={palette.mustard} className="absolute bottom-6 -left-4 opacity-20" />
+                <Triangle size={12} color={palette.teal} rotate={25} className="absolute top-2 -right-2 opacity-15" />
                 <img
                   src="/vhf-radio.webp"
                   alt="ICOM IC-M510 VHF Marine Radio on Channel 16"
-                  className="relative z-10 w-80 float-animation drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]"
+                  className="relative z-10 w-64 float-animation drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]"
                 />
               </div>
             </div>
           </div>
 
-          {/* Wave transition to content */}
           <WaveDivider />
         </header>
+
+        {/* ════════════════════════════════════════════
+            QUICK LINKS — all CTAs above the fold
+            ════════════════════════════════════════════ */}
+        <section className="max-w-5xl mx-auto px-6 -mt-4 relative z-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {QUICK_LINKS.map((link, i) => (
+              <button
+                key={link.key}
+                onClick={() => handleQuickLink(link.key)}
+                className={`fade-up fade-up-delay-${i + 1} text-left group bg-white border border-[${palette.border}] rounded-lg p-5 hover:border-[${palette.stone}] hover:shadow-md transition-all duration-500`}
+              >
+                <span className="text-lg opacity-40 block mb-2" style={{ color: link.color }}>{link.icon}</span>
+                <p className={`font-display text-base font-semibold text-[${palette.textDark}] group-hover:text-[${palette.navyLight}] transition-colors mb-1`}>{link.label}</p>
+                <p className={`text-xs text-[${palette.textLight}]`}>{link.sub}</p>
+              </button>
+            ))}
+          </div>
+        </section>
 
         {/* ════════════════════════════════════════════
             FEATURE SECTIONS — editorial, not a card grid
@@ -89,7 +115,7 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
               <div className="grid md:grid-cols-12 gap-8 items-center">
                 <div className="md:col-span-7">
                   <p className={`text-xs uppercase tracking-[0.2em] text-[${palette.teal}] font-medium mb-3`}>9 Sections · 92 Questions</p>
-                  <h2 className={`text-3xl md:text-4xl font-semibold text-[${palette.navy}] tracking-tight mb-4 group-hover:text-[${palette.navyLight}] transition-colors duration-500`}>
+                  <h2 className={`font-display text-3xl md:text-4xl font-semibold text-[${palette.navy}] tracking-tight mb-4 group-hover:text-[${palette.navyLight}] transition-colors duration-500`}>
                     Study & Quiz
                   </h2>
                   <p className={`text-[${palette.textMuted}] leading-relaxed text-lg max-w-lg`}>
@@ -127,7 +153,7 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
                   <Triangle size={20} color={palette.mustard} />
                   <Diamond size={8} color={palette.coral} className="opacity-40" />
                 </div>
-                <h3 className={`text-2xl font-semibold text-[#5B4A6B] tracking-tight mb-3 group-hover:text-[#7B6A8B] transition-colors duration-500`}>
+                <h3 className={`font-display text-2xl font-semibold text-[#5B4A6B] tracking-tight mb-3 group-hover:text-[#7B6A8B] transition-colors duration-500`}>
                   Phonetic Trainer
                 </h3>
                 <p className={`text-[${palette.textMuted}] leading-relaxed`}>
@@ -148,7 +174,7 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
                   <Diamond size={24} color={palette.coral} />
                   <Circle size={8} color="white" className="absolute top-2 left-2" />
                 </div>
-                <h3 className={`text-2xl font-semibold text-[#7A3B3B] tracking-tight mb-3 group-hover:text-[#9A5B5B] transition-colors duration-500`}>
+                <h3 className={`font-display text-2xl font-semibold text-[#7A3B3B] tracking-tight mb-3 group-hover:text-[#9A5B5B] transition-colors duration-500`}>
                   Distress Call Builder
                 </h3>
                 <p className={`text-[${palette.textMuted}] leading-relaxed`}>
@@ -177,7 +203,7 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
                     <Diamond size={8} color={palette.mustard} className="opacity-40" />
                     <div className="h-px flex-1 bg-white/10 ml-2"></div>
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+                  <h3 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mb-4">
                     Practice Exam
                   </h3>
                   <p className="text-white/40 text-lg leading-relaxed mb-2">
