@@ -4,10 +4,10 @@ import { sections } from '@/lib/quizData';
 import { PASS_THRESHOLD } from '@/lib/constants';
 import NavBar from './NavBar';
 
-export default function HomeView({ currentView, onNavigate, quizScores, onStartStudy }) {
+export default function HomeView({ currentView, onNavigate, quizScores, onStartStudy, onReset }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <NavBar currentView={currentView} onNavigate={onNavigate} />
+      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
       <header className="bg-blue-900 text-white py-10">
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-2">Maritime Radio Trainer</h1>

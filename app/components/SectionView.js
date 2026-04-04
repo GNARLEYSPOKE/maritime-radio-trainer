@@ -8,7 +8,7 @@ import NavBar from './NavBar';
 import QuestionCard from './QuestionCard';
 import { useQuiz } from '../hooks/useQuiz';
 
-export default function SectionView({ currentView, onNavigate, quizScores, setQuizScores }) {
+export default function SectionView({ currentView, onNavigate, quizScores, setQuizScores, onReset }) {
   const { currentQuestionIndex, setCurrentQuestionIndex, selectedAnswers, selectAnswer, resetQuiz, scoreQuiz, getMissedQuestions } = useQuiz();
   const [currentSection, setCurrentSection] = useState(1);
   const [isStudyMode, setIsStudyMode] = useState(true);
@@ -38,7 +38,7 @@ export default function SectionView({ currentView, onNavigate, quizScores, setQu
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavBar currentView={currentView} onNavigate={onNavigate} />
+      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
       <header className="bg-blue-900 text-white py-6 shadow-md">
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-3xl font-bold">Section {section?.number}: {section?.title}</h1>

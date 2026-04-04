@@ -10,7 +10,7 @@ import ExamView from './components/ExamView';
 
 export default function Home() {
   const [currentView, setCurrentView] = useState('home');
-  const { quizScores, setQuizScores } = useProgress();
+  const { quizScores, setQuizScores, resetProgress } = useProgress();
 
   const handleNavigate = useCallback((view) => {
     setCurrentView(view);
@@ -22,14 +22,14 @@ export default function Home() {
 
   switch (currentView) {
     case 'section':
-      return <SectionView currentView={currentView} onNavigate={handleNavigate} quizScores={quizScores} setQuizScores={setQuizScores} />;
+      return <SectionView currentView={currentView} onNavigate={handleNavigate} quizScores={quizScores} setQuizScores={setQuizScores} onReset={resetProgress} />;
     case 'phonetic':
-      return <PhoneticView currentView={currentView} onNavigate={handleNavigate} />;
+      return <PhoneticView currentView={currentView} onNavigate={handleNavigate} onReset={resetProgress} />;
     case 'distress':
-      return <DistressView currentView={currentView} onNavigate={handleNavigate} />;
+      return <DistressView currentView={currentView} onNavigate={handleNavigate} onReset={resetProgress} />;
     case 'exam':
-      return <ExamView currentView={currentView} onNavigate={handleNavigate} />;
+      return <ExamView currentView={currentView} onNavigate={handleNavigate} onReset={resetProgress} />;
     default:
-      return <HomeView currentView={currentView} onNavigate={handleNavigate} quizScores={quizScores} onStartStudy={handleStartStudy} />;
+      return <HomeView currentView={currentView} onNavigate={handleNavigate} quizScores={quizScores} onStartStudy={handleStartStudy} onReset={resetProgress} />;
   }
 }

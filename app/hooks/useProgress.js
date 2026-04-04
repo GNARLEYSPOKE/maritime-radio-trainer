@@ -14,5 +14,10 @@ export function useProgress() {
     localStorage.setItem('quizScores', JSON.stringify(quizScores));
   }, [quizScores]);
 
-  return { quizScores, setQuizScores };
+  const resetProgress = () => {
+    setQuizScores({});
+    localStorage.removeItem('quizScores');
+  };
+
+  return { quizScores, setQuizScores, resetProgress };
 }

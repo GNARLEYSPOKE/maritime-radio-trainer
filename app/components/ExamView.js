@@ -6,7 +6,7 @@ import NavBar from './NavBar';
 import QuestionCard from './QuestionCard';
 import { useExam } from '../hooks/useExam';
 
-export default function ExamView({ currentView, onNavigate }) {
+export default function ExamView({ currentView, onNavigate, onReset }) {
   const {
     examQuestions, examAnswers, examTimeLeft, examStarted, examFinished, examResults,
     currentQuestionIndex, setCurrentQuestionIndex, startExam, submitExam, selectAnswer, formatTime,
@@ -16,7 +16,7 @@ export default function ExamView({ currentView, onNavigate }) {
   if (examFinished && examResults) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <NavBar currentView={currentView} onNavigate={onNavigate} />
+        <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
         <header className={`${examResults.passed ? 'bg-green-700' : 'bg-red-700'} text-white py-6 shadow-md`}>
           <div className="max-w-6xl mx-auto px-4">
             <h1 className="text-3xl font-bold">{examResults.passed ? 'Congratulations!' : 'Keep Studying'}</h1>
@@ -86,7 +86,7 @@ export default function ExamView({ currentView, onNavigate }) {
   if (!examStarted) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <NavBar currentView={currentView} onNavigate={onNavigate} />
+        <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
         <header className="bg-green-800 text-white py-6 shadow-md">
           <div className="max-w-6xl mx-auto px-4">
             <h1 className="text-3xl font-bold">Practice Exam</h1>

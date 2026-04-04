@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { phoneticAlphabet, numbers, translateToPhonetic } from '@/lib/referenceData';
 import NavBar from './NavBar';
 
-export default function PhoneticView({ currentView, onNavigate }) {
+export default function PhoneticView({ currentView, onNavigate, onReset }) {
   const [phoneticInput, setPhoneticInput] = useState('');
   const [phoneticOutput, setPhoneticOutput] = useState('');
 
@@ -14,7 +14,7 @@ export default function PhoneticView({ currentView, onNavigate }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavBar currentView={currentView} onNavigate={onNavigate} />
+      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
       <header className="bg-purple-700 text-white py-6 shadow-md">
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-3xl font-bold">Phonetic Alphabet Trainer</h1>

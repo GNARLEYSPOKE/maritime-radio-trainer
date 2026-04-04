@@ -27,7 +27,7 @@ function FormField({ label, value, onChange, placeholder }) {
   );
 }
 
-export default function DistressView({ currentView, onNavigate }) {
+export default function DistressView({ currentView, onNavigate, onReset }) {
   const [distressType, setDistressType] = useState('mayday');
   const [distressForm, setDistressForm] = useState(EMPTY_FORM);
   const [distressScript, setDistressScript] = useState('');
@@ -98,7 +98,7 @@ Out`
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavBar currentView={currentView} onNavigate={onNavigate} />
+      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
       <header className="bg-red-800 text-white py-6 shadow-md">
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-3xl font-bold">Distress Call Builder</h1>
