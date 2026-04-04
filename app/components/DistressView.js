@@ -2,13 +2,13 @@
 
 import { useState, useCallback } from 'react';
 import { distressCalls } from '@/lib/referenceData';
-import { viewThemes } from '@/lib/theme';
+import { viewThemes, palette, ui, accents } from '@/lib/theme';
 import Layout from './Layout';
 
 const CALL_TYPES = [
-  { key: 'mayday', label: 'MAYDAY', color: 'red' },
-  { key: 'panpan', label: 'PAN PAN', color: 'orange' },
-  { key: 'securite', label: 'SECURITE', color: 'yellow' },
+  { key: 'mayday', label: 'MAYDAY' },
+  { key: 'panpan', label: 'PAN PAN' },
+  { key: 'securite', label: 'SECURITE' },
 ];
 
 const EMPTY_FORM = { vesselName: '', callSign: '', mmsi: '', position: '', personsOnBoard: '', nature: '', assistance: '' };
@@ -16,13 +16,13 @@ const EMPTY_FORM = { vesselName: '', callSign: '', mmsi: '', position: '', perso
 function FormField({ label, value, onChange, placeholder }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-600 mb-1">{label}</label>
+      <label className={`block text-xs font-medium uppercase tracking-wider text-[${palette.textMuted}] mb-1.5`}>{label}</label>
       <input
         type="text"
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"
+        className={ui.input + ' w-full'}
       />
     </div>
   );
@@ -33,6 +33,7 @@ export default function DistressView({ currentView, onNavigate, onReset }) {
   const [distressForm, setDistressForm] = useState(EMPTY_FORM);
   const [distressScript, setDistressScript] = useState('');
   const t = viewThemes.distress;
+  const a = accents.distress;
 
   const callInfo = distressCalls[distressType];
 
@@ -94,52 +95,49 @@ Out`
     : distressType === 'panpan' ? 'e.g. engine failure, drifting'
     : 'e.g. large shipping container adrift';
 
-  const scriptBorderColor = distressType === 'mayday' ? 'bg-red-50 border-red-400'
-    : distressType === 'panpan' ? 'bg-orange-50 border-orange-400'
-    : 'bg-yellow-50 border-yellow-400';
-
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-      <header className={`${t.headerBg} ${t.headerText} py-6 shadow-md`}>
-        <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-3xl font-bold">Distress Call Builder</h1>
-          <p className={t.headerSubtext}>Practice building MAYDAY, PAN PAN, and SECURITE calls</p>
+      <header className={`${t.headerBg} ${t.headerText} py-8`}>
+        <div className="max-w-5xl mx-auto px-6">
+          <p className={`text-xs uppercase tracking-[0.15em] ${t.headerSubtext} mb-2 font-medium`}>Emergency Procedures</p>
+          <h1 className="text-3xl font-semibold tracking-tight">Distress Call Builder</h1>
         </div>
       </header>
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex gap-3 mb-8">
-          {CALL_TYPES.map(t => (
+
+      <main className="max-w-5xl mx-auto px-6 py-12">
+        <div className="flex gap-3 mb-10">
+          {CALL_TYPES.map(ct => (
             <button
-              key={t.key}
-              onClick={() => { setDistressType(t.key); setDistressScript(''); }}
-              className={`py-3 px-6 rounded-lg font-bold transition ${
-                distressType === t.key
-                  ? t.key === 'mayday' ? 'bg-red-600 text-white' : t.key === 'panpan' ? 'bg-orange-500 text-white' : 'bg-yellow-500 text-gray-900'
-                  : 'bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50'
+              key={ct.key}
+              onClick={() => { setDistressType(ct.key); setDistressScript(''); }}
+              className={`py-2.5 px-6 rounded text-sm font-medium transition ${
+                distressType === ct.key
+                  ? `bg-[${a.bg}] text-white`
+                  : `${ui.card} hover:border-[${palette.stone}]`
               }`}
             >
-              {t.label}
+              {ct.label}
             </button>
           ))}
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-2">{callInfo.title}</h2>
-              <p className="text-gray-600 mb-3">{callInfo.meaning}</p>
-              <div className="space-y-2 text-sm">
-                <p><span className="font-bold">Priority:</span> {callInfo.priority}</p>
-                <p><span className="font-bold">Channel:</span> {callInfo.channelCall}</p>
-                <p><span className="font-bold">Signal:</span> {callInfo.signal}</p>
+            <div className={`${ui.card} ${ui.cardPadding} mb-6`}>
+              <h2 className={`text-lg font-semibold ${ui.heading} mb-2`}>{callInfo.title}</h2>
+              <p className={`text-sm text-[${palette.textMuted}] mb-4`}>{callInfo.meaning}</p>
+              <div className={`space-y-2 text-sm text-[${palette.textMuted}]`}>
+                <p><span className={`font-medium text-[${palette.textDark}]`}>Priority:</span> {callInfo.priority}</p>
+                <p><span className={`font-medium text-[${palette.textDark}]`}>Channel:</span> {callInfo.channelCall}</p>
+                <p><span className={`font-medium text-[${palette.textDark}]`}>Signal:</span> {callInfo.signal}</p>
               </div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-              <h3 className="font-bold text-gray-800 mb-3">Steps</h3>
-              <ol className="space-y-2">
+            <div className={`${ui.card} ${ui.cardPadding}`}>
+              <h3 className={`font-medium text-[${palette.textDark}] text-sm mb-4`}>Steps</h3>
+              <ol className="space-y-3">
                 {callInfo.steps.map((step, idx) => (
-                  <li key={idx} className="flex gap-3 text-sm text-gray-700">
-                    <span className="bg-blue-100 text-blue-700 font-bold rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">{idx + 1}</span>
+                  <li key={idx} className={`flex gap-3 text-sm text-[${palette.textMuted}]`}>
+                    <span className={`bg-[${palette.cream}] text-[${palette.textDark}] font-medium rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-xs`}>{idx + 1}</span>
                     {step}
                   </li>
                 ))}
@@ -148,51 +146,48 @@ Out`
           </div>
 
           <div>
-            <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-              <h3 className="font-bold text-gray-800 mb-4">Enter Your Details</h3>
-              <div className="space-y-3">
+            <div className={`${ui.card} ${ui.cardPadding} mb-6`}>
+              <h3 className={`font-medium text-[${palette.textDark}] text-sm mb-5`}>Enter Your Details</h3>
+              <div className="space-y-4">
                 <FormField label="Vessel Name" value={distressForm.vesselName} onChange={e => updateField('vesselName', e.target.value)} placeholder="e.g. Canadian Sailor" />
                 <FormField label="Call Sign (optional)" value={distressForm.callSign} onChange={e => updateField('callSign', e.target.value)} placeholder="e.g. VE1234" />
                 <FormField label="MMSI (optional)" value={distressForm.mmsi} onChange={e => updateField('mmsi', e.target.value)} placeholder="e.g. 316001234" />
-                <FormField label="Position" value={distressForm.position} onChange={e => updateField('position', e.target.value)} placeholder="e.g. 43°39'N 079°23'W or 2 miles south of Toronto Island" />
+                <FormField label="Position" value={distressForm.position} onChange={e => updateField('position', e.target.value)} placeholder="e.g. 43°39'N 079°23'W" />
                 <FormField label="Persons on Board" value={distressForm.personsOnBoard} onChange={e => updateField('personsOnBoard', e.target.value)} placeholder="e.g. 4" />
                 <FormField label={distressType === 'securite' ? 'Hazard Description' : 'Nature of Distress/Urgency'} value={distressForm.nature} onChange={e => updateField('nature', e.target.value)} placeholder={naturePlaceholder} />
                 {distressType !== 'securite' && (
                   <FormField label="Assistance Available (optional)" value={distressForm.assistance} onChange={e => updateField('assistance', e.target.value)} placeholder="e.g. Life raft deployed, flares available" />
                 )}
               </div>
-              <button onClick={buildScript} className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition">
+              <button onClick={buildScript} className={`mt-6 w-full ${ui.btnPrimary}`}>
                 Build Call Script
               </button>
             </div>
 
             {distressScript && (
-              <div className={`p-6 rounded-lg shadow-md border-2 ${scriptBorderColor}`}>
-                <h3 className="font-bold text-gray-800 mb-3">Your Call Script</h3>
-                <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-gray-800">{distressScript}</pre>
-                <p className="mt-4 text-xs text-gray-500">Practice reading this aloud clearly and at a measured pace. In a real emergency, stay calm and speak slowly.</p>
+              <div className={`${ui.card} ${ui.cardPadding} bg-[${a.muted}] border-[${a.border}]`}>
+                <h3 className={`font-medium text-[${palette.textDark}] text-sm mb-4`}>Your Call Script</h3>
+                <pre className={`whitespace-pre-wrap font-mono text-sm leading-relaxed text-[${palette.textDark}]`}>{distressScript}</pre>
+                <p className={`mt-4 text-xs text-[${palette.textLight}]`}>Practice reading this aloud clearly and at a measured pace.</p>
               </div>
             )}
           </div>
         </div>
 
-        <div className="mt-8 bg-blue-50 p-6 rounded-lg border border-blue-200">
-          <h3 className="font-bold text-blue-800 mb-3">Quick Reference: When to Use Each Signal</h3>
-          <div className="grid md:grid-cols-3 gap-4 text-sm">
-            <div className="bg-white p-4 rounded border-l-4 border-red-500">
-              <p className="font-bold text-red-700">MAYDAY (Distress)</p>
-              <p className="text-gray-600">Grave and imminent danger. Life threatening. Immediate help needed NOW.</p>
-              <p className="text-gray-500 mt-1">Sinking, fire, crew overboard</p>
+        <div className={`mt-12 ${ui.card} ${ui.cardPadding}`}>
+          <h3 className={`font-medium text-[${palette.textDark}] text-sm mb-6`}>Quick Reference: When to Use Each Signal</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="p-5 rounded border-l-2 border-[#7A3B3B] bg-[#F7EFEF]">
+              <p className="font-medium text-[#7A3B3B] text-sm">MAYDAY (Distress)</p>
+              <p className={`text-[${palette.textMuted}] text-sm mt-1`}>Grave and imminent danger. Life threatening. Immediate help needed.</p>
             </div>
-            <div className="bg-white p-4 rounded border-l-4 border-orange-500">
-              <p className="font-bold text-orange-700">PAN PAN (Urgency)</p>
-              <p className="text-gray-600">Serious safety concern. Help needed but not immediately life threatening.</p>
-              <p className="text-gray-500 mt-1">Engine failure, medical issue, taking on water slowly</p>
+            <div className="p-5 rounded border-l-2 border-[#8B6914] bg-[#FAF5E8]">
+              <p className="font-medium text-[#8B6914] text-sm">PAN PAN (Urgency)</p>
+              <p className={`text-[${palette.textMuted}] text-sm mt-1`}>Serious safety concern. Help needed but not immediately life threatening.</p>
             </div>
-            <div className="bg-white p-4 rounded border-l-4 border-yellow-500">
-              <p className="font-bold text-yellow-700">SECURITE (Safety)</p>
-              <p className="text-gray-600">Important navigational or weather warning for other vessels.</p>
-              <p className="text-gray-500 mt-1">Debris in water, severe weather, unlit vessel</p>
+            <div className="p-5 rounded border-l-2 border-[#5B4A6B] bg-[#F3EFF7]">
+              <p className="font-medium text-[#5B4A6B] text-sm">SECURITE (Safety)</p>
+              <p className={`text-[${palette.textMuted}] text-sm mt-1`}>Important navigational or weather warning for other vessels.</p>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import { sections } from '@/lib/quizData';
 import { PASS_THRESHOLD, LOW_TIME_WARNING_SECONDS } from '@/lib/constants';
-import { viewThemes } from '@/lib/theme';
+import { viewThemes, palette, ui } from '@/lib/theme';
 import Layout from './Layout';
 import QuestionCard from './QuestionCard';
 import { useExam } from '../hooks/useExam';
@@ -17,57 +17,57 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
 
   // ── Results ──
   if (examFinished && examResults) {
+    const passed = examResults.passed;
     return (
       <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-        <header className={`${examResults.passed ? 'bg-green-700' : 'bg-red-700'} text-white py-6 shadow-md`}>
-          <div className="max-w-6xl mx-auto px-4">
-            <h1 className="text-3xl font-bold">{examResults.passed ? 'Congratulations!' : 'Keep Studying'}</h1>
-            <p className="text-white/80">{examResults.passed ? 'You passed the practice exam.' : `You did not reach the ${PASS_THRESHOLD}% pass mark this time.`}</p>
+        <header className={`${passed ? 'bg-[#3B5A4A]' : 'bg-[#7A3B3B]'} text-white py-8`}>
+          <div className="max-w-5xl mx-auto px-6">
+            <p className="text-xs uppercase tracking-[0.15em] text-white/50 mb-2 font-medium">Exam Complete</p>
+            <h1 className="text-3xl font-semibold tracking-tight">{passed ? 'Congratulations' : 'Keep Studying'}</h1>
           </div>
         </header>
-        <main className="max-w-4xl mx-auto px-4 py-8">
-          <div className="bg-white p-8 rounded-lg shadow-md mb-8 text-center">
-            <p className={`text-6xl font-bold mb-2 ${examResults.passed ? 'text-green-600' : 'text-red-600'}`}>{examResults.percentage}%</p>
-            <p className="text-gray-600 text-lg">{examResults.correct} correct out of {examResults.total} questions</p>
-            <p className="text-gray-500">Pass mark: {PASS_THRESHOLD}% (42 out of 60)</p>
+
+        <main className="max-w-4xl mx-auto px-6 py-12">
+          <div className={`${ui.card} p-10 mb-8 text-center`}>
+            <p className={`text-5xl font-semibold mb-2 ${passed ? 'text-[#3B5A4A]' : 'text-[#7A3B3B]'}`}>{examResults.percentage}%</p>
+            <p className={`text-[${palette.textMuted}]`}>{examResults.correct} correct out of {examResults.total} questions</p>
+            <p className={`text-sm text-[${palette.textLight}] mt-1`}>Pass mark: {PASS_THRESHOLD}% (42 out of 60)</p>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Score by Section</h2>
-            <div className="space-y-3">
+          <div className={`${ui.card} ${ui.cardPadding} mb-8`}>
+            <h2 className={`text-lg font-semibold ${ui.heading} mb-6`}>Score by Section</h2>
+            <div className="space-y-4">
               {Object.keys(examResults.sectionBreakdown).sort((a, b) => a - b).map(sNum => {
                 const s = examResults.sectionBreakdown[sNum];
                 const pct = Math.round((s.correct / s.total) * 100);
                 const sectionTitle = sections.find(x => x.number === parseInt(sNum))?.title || `Section ${sNum}`;
                 return (
                   <div key={sNum} className="flex items-center gap-4">
-                    <span className="w-48 text-sm font-semibold text-gray-700 truncate">S{sNum}: {sectionTitle}</span>
-                    <div className="flex-1 bg-gray-200 rounded-full h-4">
-                      <div className={`h-4 rounded-full transition-all ${pct >= PASS_THRESHOLD ? 'bg-green-500' : 'bg-orange-400'}`} style={{ width: `${pct}%` }}></div>
+                    <span className={`w-48 text-sm font-medium text-[${palette.textDark}] truncate`}>S{sNum}: {sectionTitle}</span>
+                    <div className={`flex-1 bg-[${palette.cream}] rounded-full h-2`}>
+                      <div className={`h-2 rounded-full transition-all duration-500 ${pct >= PASS_THRESHOLD ? 'bg-[#3B5A4A]' : 'bg-[#D4A843]'}`} style={{ width: `${pct}%` }}></div>
                     </div>
-                    <span className="text-sm font-bold w-20 text-right">{s.correct}/{s.total} ({pct}%)</span>
+                    <span className={`text-sm font-medium w-20 text-right text-[${palette.textMuted}]`}>{s.correct}/{s.total} ({pct}%)</span>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Review Incorrect Answers</h2>
-            <div className="space-y-4">
+          <div className={`${ui.card} ${ui.cardPadding} mb-8`}>
+            <h2 className={`text-lg font-semibold ${ui.heading} mb-6`}>Review Incorrect Answers</h2>
+            <div className="space-y-5">
               {examQuestions.map((q, idx) => {
                 if (examAnswers[idx] === q.correctIndex) return null;
                 const sTitle = sections.find(x => x.number === q.sectionNum)?.title || '';
                 return (
-                  <div key={idx} className="border-l-4 border-red-400 pl-4 py-2">
-                    <p className="text-xs text-gray-400 mb-1">Section {q.sectionNum}: {sTitle}</p>
-                    <p className="font-semibold text-gray-800 mb-1">{q.question}</p>
-                    <p className="text-red-600 text-sm">Your answer: {examAnswers[idx] !== undefined ? q.options[examAnswers[idx]] : 'No answer'}</p>
-                    <p className="text-green-700 text-sm font-semibold">Correct: {q.options[q.correctIndex]}</p>
-                    <p className="text-gray-500 text-sm mt-1">{q.explanation}</p>
-                    {q.reference && (
-                      <p className="text-xs text-gray-400 mt-1 italic">📖 {q.reference}</p>
-                    )}
+                  <div key={idx} className={`border-l-2 border-[#E8C9C9] pl-5 py-2`}>
+                    <p className={ui.label + ' mb-1'}>Section {q.sectionNum}: {sTitle}</p>
+                    <p className={`font-medium text-[${palette.textDark}] text-sm mb-2`}>{q.question}</p>
+                    <p className="text-[#7A3B3B] text-sm">Your answer: {examAnswers[idx] !== undefined ? q.options[examAnswers[idx]] : 'No answer'}</p>
+                    <p className="text-[#3B5A4A] text-sm font-medium">Correct: {q.options[q.correctIndex]}</p>
+                    <p className={`text-[${palette.textLight}] text-sm mt-1`}>{q.explanation}</p>
+                    {q.reference && <p className={`text-xs text-[${palette.textLight}] mt-1 italic`}>{q.reference}</p>}
                   </div>
                 );
               })}
@@ -75,9 +75,7 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
           </div>
 
           <div className="text-center">
-            <button onClick={startExam} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition">
-              Take Another Exam
-            </button>
+            <button onClick={startExam} className={ui.btnPrimary}>Take Another Exam</button>
           </div>
         </main>
       </Layout>
@@ -88,23 +86,23 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
   if (!examStarted) {
     return (
       <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-        <header className={`${t.headerBg} ${t.headerText} py-6 shadow-md`}>
-          <div className="max-w-6xl mx-auto px-4">
-            <h1 className="text-3xl font-bold">Practice Exam</h1>
-            <p className={t.headerSubtext}>Simulates the ROC(M) written examination</p>
+        <header className={`${t.headerBg} ${t.headerText} py-8`}>
+          <div className="max-w-5xl mx-auto px-6">
+            <p className={`text-xs uppercase tracking-[0.15em] ${t.headerSubtext} mb-2 font-medium`}>Written Examination</p>
+            <h1 className="text-3xl font-semibold tracking-tight">Practice Exam</h1>
           </div>
         </header>
-        <main className="max-w-3xl mx-auto px-4 py-12">
-          <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">ROC(M) Practice Written Exam</h2>
-            <div className="space-y-3 text-gray-600 mb-8 text-left max-w-md mx-auto">
-              <p><span className="font-bold">Questions:</span> 60 multiple choice (randomly selected from all 9 sections)</p>
-              <p><span className="font-bold">Time limit:</span> 60 minutes</p>
-              <p><span className="font-bold">Pass mark:</span> {PASS_THRESHOLD}% (42 out of 60 correct)</p>
-              <p><span className="font-bold">Format:</span> Same structure as the real exam</p>
+        <main className="max-w-3xl mx-auto px-6 py-16">
+          <div className={`${ui.card} p-10 text-center`}>
+            <h2 className={`text-xl font-semibold ${ui.heading} mb-8`}>ROC(M) Practice Written Exam</h2>
+            <div className={`space-y-3 text-[${palette.textMuted}] text-sm mb-10 text-left max-w-md mx-auto`}>
+              <p><span className={`font-medium text-[${palette.textDark}]`}>Questions:</span> 60 multiple choice (randomly selected from all 9 sections)</p>
+              <p><span className={`font-medium text-[${palette.textDark}]`}>Time limit:</span> 60 minutes</p>
+              <p><span className={`font-medium text-[${palette.textDark}]`}>Pass mark:</span> {PASS_THRESHOLD}% (42 out of 60 correct)</p>
+              <p><span className={`font-medium text-[${palette.textDark}]`}>Format:</span> Same structure as the real exam</p>
             </div>
-            <p className="text-sm text-gray-400 mb-6">The real ROC(M) exam also includes an oral component testing phonetic alphabet and distress call procedures. Use the Phonetic Trainer and Distress Call Builder to prepare for that portion.</p>
-            <button onClick={startExam} className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-12 rounded-lg transition text-lg">
+            <p className={`text-xs text-[${palette.textLight}] mb-8 max-w-md mx-auto`}>The real ROC(M) exam also includes an oral component. Use the Phonetic Trainer and Distress Call Builder to prepare.</p>
+            <button onClick={startExam} className={`${ui.btnPrimary} py-4 px-12 text-base`}>
               Start Practice Exam
             </button>
           </div>
@@ -120,31 +118,32 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
 
   return (
     <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
-      <div className={`sticky top-0 z-50 ${isLowTime ? 'bg-red-700' : 'bg-green-800'} text-white py-3 shadow-md`}>
-        <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
+      <div className={`sticky top-0 z-50 ${isLowTime ? 'bg-[#7A3B3B]' : 'bg-[#3B5A4A]'} text-white py-3`}>
+        <div className="max-w-5xl mx-auto px-6 flex justify-between items-center">
           <div>
-            <span className="font-bold">Question {currentQuestionIndex + 1} of {examQuestions.length}</span>
-            <span className="ml-4 text-sm opacity-80">{answeredCount} answered</span>
+            <span className="font-medium text-sm">Question {currentQuestionIndex + 1} of {examQuestions.length}</span>
+            <span className="ml-4 text-sm text-white/50">{answeredCount} answered</span>
           </div>
           <div className="flex items-center gap-6">
-            <span className={`font-mono text-xl font-bold ${isLowTime ? 'animate-pulse' : ''}`}>{formatTime(examTimeLeft)}</span>
-            <button onClick={() => { if (confirm('Are you sure you want to submit? Unanswered questions will be marked incorrect.')) submitExam(); }} className="bg-white/20 hover:bg-white/30 px-4 py-1 rounded font-bold transition text-sm">
+            <span className={`font-mono text-lg font-medium ${isLowTime ? 'animate-pulse' : ''}`}>{formatTime(examTimeLeft)}</span>
+            <button onClick={() => { if (confirm('Are you sure you want to submit? Unanswered questions will be marked incorrect.')) submitExam(); }} className="bg-white/15 hover:bg-white/25 px-4 py-1.5 rounded font-medium transition text-sm">
               Submit Exam
             </button>
           </div>
         </div>
       </div>
-      <main className="max-w-4xl mx-auto px-4 py-8">
+
+      <main className="max-w-4xl mx-auto px-6 py-8">
         <div className="mb-6">
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1.5">
             {examQuestions.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentQuestionIndex(idx)}
-                className={`w-8 h-8 rounded text-xs font-bold transition ${
-                  idx === currentQuestionIndex ? 'bg-blue-600 text-white'
-                  : examAnswers[idx] !== undefined ? 'bg-green-200 text-green-800'
-                  : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                className={`w-8 h-8 rounded text-xs font-medium transition ${
+                  idx === currentQuestionIndex ? `bg-[${palette.navy}] text-white`
+                  : examAnswers[idx] !== undefined ? 'bg-[#EFF5F1] text-[#3B5A4A]'
+                  : `bg-[${palette.cream}] text-[${palette.textLight}] hover:bg-[${palette.sand}]`
                 }`}
               >
                 {idx + 1}
@@ -154,8 +153,8 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
         </div>
 
         {currentQ && (
-          <div className="bg-white p-8 rounded-lg shadow-md">
-            <p className="text-xs text-gray-400 mb-4">Section {currentQ.sectionNum}: {sections.find(s => s.number === currentQ.sectionNum)?.title}</p>
+          <div className={`${ui.card} ${ui.cardPadding}`}>
+            <p className={ui.label + ' mb-6'}>Section {currentQ.sectionNum}: {sections.find(s => s.number === currentQ.sectionNum)?.title}</p>
             <QuestionCard
               question={currentQ}
               selectedAnswer={examAnswers[currentQuestionIndex]}
@@ -163,11 +162,11 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
               showFeedback={false}
             />
             <div className="flex justify-between">
-              <button onClick={() => currentQuestionIndex > 0 && setCurrentQuestionIndex(currentQuestionIndex - 1)} disabled={currentQuestionIndex === 0} className="bg-gray-400 hover:bg-gray-500 disabled:opacity-50 text-white font-bold py-2 px-6 rounded transition">Previous</button>
+              <button onClick={() => currentQuestionIndex > 0 && setCurrentQuestionIndex(currentQuestionIndex - 1)} disabled={currentQuestionIndex === 0} className={`${ui.btnSecondary} disabled:opacity-30`}>Previous</button>
               {currentQuestionIndex < examQuestions.length - 1 ? (
-                <button onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition">Next</button>
+                <button onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)} className={ui.btnPrimary}>Next</button>
               ) : (
-                <button onClick={() => { if (confirm('Submit your exam? Unanswered questions will be marked incorrect.')) submitExam(); }} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition">Submit Exam</button>
+                <button onClick={() => { if (confirm('Submit your exam? Unanswered questions will be marked incorrect.')) submitExam(); }} className={ui.btnPrimary}>Submit Exam</button>
               )}
             </div>
           </div>
