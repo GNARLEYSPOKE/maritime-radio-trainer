@@ -18,8 +18,8 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
             <Diamond size={10} color={palette.mustard} />
             <Circle size={8} color={palette.teal} />
           </div>
-          <h1 className="text-5xl font-semibold tracking-tight mb-3">Maritime Radio<br />Trainer</h1>
-          <p className="text-white/50 text-lg max-w-md">Canadian ROC(M) certification study guide. Everything you need for the written and oral exam.</p>
+          <h1 className="text-5xl font-semibold tracking-tight mb-3">Maritime Radio Trainer</h1>
+          <p className="text-white/50 text-lg max-w-md">An unofficial Canadian ROC(M) certification study guide.</p>
         </div>
       </header>
 
