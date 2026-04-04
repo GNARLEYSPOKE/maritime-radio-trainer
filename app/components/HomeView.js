@@ -22,11 +22,20 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
             <h1 className="text-5xl font-semibold tracking-tight mb-3">Maritime Radio Trainer</h1>
             <p className="text-white/50 text-lg">An unofficial Canadian ROC(M) certification study guide.</p>
           </div>
-          <div className="hidden md:block flex-shrink-0">
+          <div className="hidden md:block flex-shrink-0 relative">
+            {/* Decorative backdrop */}
+            <div className="absolute -inset-8">
+              <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-[${palette.teal}]/10 blur-3xl`}></div>
+              <HalfCircle size={80} color={palette.coral} rotate={-30} className="absolute -top-4 -left-6 opacity-15" />
+              <Diamond size={24} color={palette.mustard} className="absolute bottom-4 -left-4 opacity-20" />
+              <Circle size={12} color={palette.teal} className="absolute top-8 -right-2 opacity-25" />
+              <DotGrid cols={3} rows={3} gap={12} dotSize={2.5} color="#ffffff" opacity={0.08} className="absolute -bottom-2 right-4" />
+            </div>
+            {/* Radio image */}
             <img
               src="/vhf-radio.webp"
               alt="ICOM IC-M510 VHF Marine Radio on Channel 16"
-              className="w-64 drop-shadow-2xl opacity-90"
+              className="relative z-10 w-72 -rotate-3 drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] hover:rotate-0 hover:scale-105 transition-all duration-700 ease-out"
             />
           </div>
         </div>
