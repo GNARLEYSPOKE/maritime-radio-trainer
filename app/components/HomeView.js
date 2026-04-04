@@ -2,17 +2,18 @@
 
 import { sections } from '@/lib/quizData';
 import { PASS_THRESHOLD } from '@/lib/constants';
-import NavBar from './NavBar';
-import Footer from './Footer';
+import { viewThemes } from '@/lib/theme';
+import Layout from './Layout';
 
 export default function HomeView({ currentView, onNavigate, quizScores, onStartStudy, onReset }) {
+  const t = viewThemes.home;
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
-      <header className="bg-blue-900 text-white py-10">
+    <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
+      <header className={`${t.headerBg} ${t.headerText} py-10`}>
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-2">Maritime Radio Trainer</h1>
-          <p className="text-blue-200 text-lg">ROC(M) Certification Study Guide</p>
+          <p className={`${t.headerSubtext} text-lg`}>ROC(M) Certification Study Guide</p>
         </div>
       </header>
       <main className="max-w-6xl mx-auto px-4 py-12">
@@ -56,7 +57,6 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
           </div>
         )}
       </main>
-      <Footer />
-    </div>
+    </Layout>
   );
 }

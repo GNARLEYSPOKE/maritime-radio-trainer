@@ -2,8 +2,8 @@
 
 import { sections } from '@/lib/quizData';
 import { PASS_THRESHOLD, LOW_TIME_WARNING_SECONDS } from '@/lib/constants';
-import NavBar from './NavBar';
-import Footer from './Footer';
+import { viewThemes } from '@/lib/theme';
+import Layout from './Layout';
 import QuestionCard from './QuestionCard';
 import { useExam } from '../hooks/useExam';
 
@@ -13,11 +13,12 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
     currentQuestionIndex, setCurrentQuestionIndex, startExam, submitExam, selectAnswer, formatTime,
   } = useExam();
 
+  const t = viewThemes.exam;
+
   // ── Results ──
   if (examFinished && examResults) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
+      <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
         <header className={`${examResults.passed ? 'bg-green-700' : 'bg-red-700'} text-white py-6 shadow-md`}>
           <div className="max-w-6xl mx-auto px-4">
             <h1 className="text-3xl font-bold">{examResults.passed ? 'Congratulations!' : 'Keep Studying'}</h1>
@@ -79,20 +80,18 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
             </button>
           </div>
         </main>
-        <Footer />
-      </div>
+      </Layout>
     );
   }
 
   // ── Pre-exam ──
   if (!examStarted) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
-        <header className="bg-green-800 text-white py-6 shadow-md">
+      <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
+        <header className={`${t.headerBg} ${t.headerText} py-6 shadow-md`}>
           <div className="max-w-6xl mx-auto px-4">
             <h1 className="text-3xl font-bold">Practice Exam</h1>
-            <p className="text-green-200">Simulates the ROC(M) written examination</p>
+            <p className={t.headerSubtext}>Simulates the ROC(M) written examination</p>
           </div>
         </header>
         <main className="max-w-3xl mx-auto px-4 py-12">
@@ -110,8 +109,7 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
             </button>
           </div>
         </main>
-        <Footer />
-      </div>
+      </Layout>
     );
   }
 
@@ -121,8 +119,7 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
   const isLowTime = examTimeLeft < LOW_TIME_WARNING_SECONDS;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
+    <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
       <div className={`sticky top-0 z-50 ${isLowTime ? 'bg-red-700' : 'bg-green-800'} text-white py-3 shadow-md`}>
         <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
           <div>
@@ -176,7 +173,6 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
           </div>
         )}
       </main>
-      <Footer />
-    </div>
+    </Layout>
   );
 }

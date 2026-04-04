@@ -2,8 +2,8 @@
 
 import { useState, useCallback } from 'react';
 import { distressCalls } from '@/lib/referenceData';
-import NavBar from './NavBar';
-import Footer from './Footer';
+import { viewThemes } from '@/lib/theme';
+import Layout from './Layout';
 
 const CALL_TYPES = [
   { key: 'mayday', label: 'MAYDAY', color: 'red' },
@@ -32,6 +32,7 @@ export default function DistressView({ currentView, onNavigate, onReset }) {
   const [distressType, setDistressType] = useState('mayday');
   const [distressForm, setDistressForm] = useState(EMPTY_FORM);
   const [distressScript, setDistressScript] = useState('');
+  const t = viewThemes.distress;
 
   const callInfo = distressCalls[distressType];
 
@@ -98,12 +99,11 @@ Out`
     : 'bg-yellow-50 border-yellow-400';
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
-      <header className="bg-red-800 text-white py-6 shadow-md">
+    <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
+      <header className={`${t.headerBg} ${t.headerText} py-6 shadow-md`}>
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-3xl font-bold">Distress Call Builder</h1>
-          <p className="text-red-200">Practice building MAYDAY, PAN PAN, and SECURITE calls</p>
+          <p className={t.headerSubtext}>Practice building MAYDAY, PAN PAN, and SECURITE calls</p>
         </div>
       </header>
       <main className="max-w-5xl mx-auto px-4 py-8">
@@ -197,7 +197,6 @@ Out`
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
+    </Layout>
   );
 }

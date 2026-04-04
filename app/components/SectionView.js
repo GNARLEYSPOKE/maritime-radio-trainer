@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { sections, quizzes } from '@/lib/quizData';
 import { sectionContent } from '@/lib/sectionContent';
 import { PASS_THRESHOLD } from '@/lib/constants';
-import NavBar from './NavBar';
-import Footer from './Footer';
+import { viewThemes } from '@/lib/theme';
+import Layout from './Layout';
 import QuestionCard from './QuestionCard';
 import { useQuiz } from '../hooks/useQuiz';
 
@@ -13,6 +13,7 @@ export default function SectionView({ currentView, onNavigate, quizScores, setQu
   const { currentQuestionIndex, setCurrentQuestionIndex, selectedAnswers, selectAnswer, resetQuiz, scoreQuiz, getMissedQuestions } = useQuiz();
   const [currentSection, setCurrentSection] = useState(1);
   const [isStudyMode, setIsStudyMode] = useState(true);
+  const t = viewThemes.section;
 
   const section = sections.find(s => s.number === currentSection);
   const content = sectionContent[currentSection]?.keyPoints || [];
@@ -38,12 +39,11 @@ export default function SectionView({ currentView, onNavigate, quizScores, setQu
   const missed = getMissedQuestions(quiz);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
-      <header className="bg-blue-900 text-white py-6 shadow-md">
+    <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
+      <header className={`${t.headerBg} ${t.headerText} py-6 shadow-md`}>
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-3xl font-bold">Section {section?.number}: {section?.title}</h1>
-          <p className="text-blue-200">{section?.description}</p>
+          <p className={t.headerSubtext}>{section?.description}</p>
         </div>
       </header>
       <main className="max-w-6xl mx-auto px-4 py-8">
@@ -129,7 +129,6 @@ export default function SectionView({ currentView, onNavigate, quizScores, setQu
           ) : null}
         </div>
       </main>
-      <Footer />
-    </div>
+    </Layout>
   );
 }

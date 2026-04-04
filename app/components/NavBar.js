@@ -1,5 +1,7 @@
 'use client';
 
+import { shell } from '@/lib/theme';
+
 const NAV_ITEMS = [
   { key: 'home', label: 'Home' },
   { key: 'section', label: 'Study & Quiz' },
@@ -10,14 +12,14 @@ const NAV_ITEMS = [
 
 export default function NavBar({ currentView, onNavigate, onReset }) {
   return (
-    <nav className="bg-blue-950 text-white py-3 border-b border-blue-800">
+    <nav className={`${shell.navBg} ${shell.navText} py-3 border-b border-blue-800`}>
       <div className="max-w-6xl mx-auto px-4 flex gap-4 flex-wrap text-sm font-semibold items-center">
         {NAV_ITEMS.map(item => (
           <button
             key={item.key}
             onClick={() => onNavigate(item.key)}
             className={`px-3 py-1 rounded transition ${
-              currentView === item.key ? 'bg-blue-600' : 'hover:bg-blue-800'
+              currentView === item.key ? shell.navActive : shell.navHover
             }`}
           >
             {item.label}

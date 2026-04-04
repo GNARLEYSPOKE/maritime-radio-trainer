@@ -2,8 +2,8 @@
 
 import { useState, useCallback } from 'react';
 import { phoneticAlphabet, numbers, translateToPhonetic } from '@/lib/referenceData';
-import NavBar from './NavBar';
-import Footer from './Footer';
+import { viewThemes } from '@/lib/theme';
+import Layout from './Layout';
 
 const ALL_CARDS = [
   ...phoneticAlphabet.map(item => ({ front: item.letter, back: item.word, type: 'letter' })),
@@ -23,6 +23,7 @@ export default function PhoneticView({ currentView, onNavigate, onReset }) {
   const [phoneticOutput, setPhoneticOutput] = useState('');
   const [flashcard, setFlashcard] = useState(() => getRandomCard());
   const [isFlipped, setIsFlipped] = useState(false);
+  const t = viewThemes.phonetic;
 
   const handleFlip = useCallback(() => {
     if (isFlipped) {
@@ -38,12 +39,11 @@ export default function PhoneticView({ currentView, onNavigate, onReset }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
-      <header className="bg-purple-700 text-white py-6 shadow-md">
+    <Layout currentView={currentView} onNavigate={onNavigate} onReset={onReset}>
+      <header className={`${t.headerBg} ${t.headerText} py-6 shadow-md`}>
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-3xl font-bold">Phonetic Alphabet Trainer</h1>
-          <p className="text-purple-200">Essential for the oral exam component of the ROC(M)</p>
+          <p className={t.headerSubtext}>Essential for the oral exam component of the ROC(M)</p>
         </div>
       </header>
       <main className="max-w-4xl mx-auto px-4 py-8">
@@ -128,7 +128,6 @@ export default function PhoneticView({ currentView, onNavigate, onReset }) {
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
+    </Layout>
   );
 }
