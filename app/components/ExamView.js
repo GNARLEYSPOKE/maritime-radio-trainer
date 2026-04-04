@@ -119,6 +119,7 @@ export default function ExamView({ currentView, onNavigate, onReset }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <NavBar currentView={currentView} onNavigate={onNavigate} onReset={onReset} />
       <div className={`sticky top-0 z-50 ${isLowTime ? 'bg-red-700' : 'bg-green-800'} text-white py-3 shadow-md`}>
         <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
           <div>
