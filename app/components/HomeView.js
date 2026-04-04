@@ -19,7 +19,7 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
             <Circle size={8} color={palette.teal} />
           </div>
           <h1 className="text-5xl font-semibold tracking-tight mb-3">Maritime Radio Trainer</h1>
-          <p className="text-white/50 text-lg max-w-md">An unofficial Canadian ROC(M) certification study guide.</p>
+          <p className="text-white/50 text-lg">An unofficial Canadian ROC(M) certification study guide.</p>
         </div>
       </header>
 
