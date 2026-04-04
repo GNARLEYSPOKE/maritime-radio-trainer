@@ -1,12 +1,36 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { phoneticAlphabet, numbers, translateToPhonetic } from '@/lib/referenceData';
 import NavBar from './NavBar';
+
+const ALL_CARDS = [
+  ...phoneticAlphabet.map(item => ({ front: item.letter, back: item.word, type: 'letter' })),
+  ...numbers.map(item => ({ front: item.digit, back: item.word, type: 'number' })),
+];
+
+function getRandomCard(exclude) {
+  let card;
+  do {
+    card = ALL_CARDS[Math.floor(Math.random() * ALL_CARDS.length)];
+  } while (exclude && card.front === exclude.front);
+  return card;
+}
 
 export default function PhoneticView({ currentView, onNavigate, onReset }) {
   const [phoneticInput, setPhoneticInput] = useState('');
   const [phoneticOutput, setPhoneticOutput] = useState('');
+  const [flashcard, setFlashcard] = useState(() => getRandomCard());
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleFlip = useCallback(() => {
+    if (isFlipped) {
+      setIsFlipped(false);
+      setTimeout(() => setFlashcard(getRandomCard(flashcard)), 200);
+    } else {
+      setIsFlipped(true);
+    }
+  }, [isFlipped, flashcard]);
 
   function handleTranslate() {
     setPhoneticOutput(translateToPhonetic(phoneticInput));
@@ -22,6 +46,30 @@ export default function PhoneticView({ currentView, onNavigate, onReset }) {
         </div>
       </header>
       <main className="max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+          <h2 className="text-xl font-bold text-purple-700 mb-4">Flashcards</h2>
+          <p className="text-gray-600 mb-4">Click the card to reveal the phonetic word. Click again for the next card.</p>
+          <div className="flex justify-center">
+            <button
+              onClick={handleFlip}
+              className="w-48 h-48 perspective-500 focus:outline-none"
+            >
+              <div className={`relative w-full h-full transition-transform duration-300 ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`} style={{ transformStyle: 'preserve-3d' }}>
+                <div className="absolute inset-0 bg-purple-600 rounded-2xl shadow-lg flex flex-col items-center justify-center text-white" style={{ backfaceVisibility: 'hidden' }}>
+                  <span className="text-xs uppercase tracking-wider mb-2 opacity-70">{flashcard.type === 'letter' ? 'Letter' : 'Number'}</span>
+                  <span className="text-6xl font-bold">{flashcard.front}</span>
+                  <span className="text-xs mt-3 opacity-50">tap to flip</span>
+                </div>
+                <div className="absolute inset-0 bg-purple-100 rounded-2xl shadow-lg flex flex-col items-center justify-center border-2 border-purple-300 [transform:rotateY(180deg)]" style={{ backfaceVisibility: 'hidden' }}>
+                  <span className="text-xs uppercase tracking-wider mb-2 text-purple-500">{flashcard.front}</span>
+                  <span className="text-3xl font-bold text-purple-800">{flashcard.back}</span>
+                  <span className="text-xs mt-3 text-purple-400">tap for next</span>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
           <h2 className="text-xl font-bold text-purple-700 mb-4">Translate Text to Phonetic</h2>
           <p className="text-gray-600 mb-4">Type any word, vessel name, or call sign below to see the phonetic spelling.</p>
