@@ -51,7 +51,7 @@ export default function DistressView({ currentView, onNavigate, onReset }) {
     const pob = f.personsOnBoard || '[NUMBER]';
     const callSign = f.callSign ? `, call sign ${f.callSign}` : '';
     const mmsi = f.mmsi ? `, MMSI ${f.mmsi}` : '';
-    const assist = f.assistance ? `\nAssistance available: ${f.assistance}` : '';
+    const assist = f.assistance ? `\nAssistance required: ${f.assistance}` : '';
 
     if (distressType === 'mayday') {
       setDistressScript(
@@ -161,7 +161,7 @@ Out`
                 <FormField label="Persons on Board" value={distressForm.personsOnBoard} onChange={e => updateField('personsOnBoard', e.target.value)} placeholder="e.g. 4" />
                 <FormField label={distressType === 'securite' ? 'Hazard Description' : 'Nature of Distress/Urgency'} value={distressForm.nature} onChange={e => updateField('nature', e.target.value)} placeholder={naturePlaceholder} />
                 {distressType !== 'securite' && (
-                  <FormField label="Assistance Available (optional)" value={distressForm.assistance} onChange={e => updateField('assistance', e.target.value)} placeholder="e.g. Life raft deployed, flares available" />
+                  <FormField label="Assistance Required (optional)" value={distressForm.assistance} onChange={e => updateField('assistance', e.target.value)} placeholder="e.g. Immediate evacuation, towing to nearest port" />
                 )}
               </div>
               <button onClick={buildScript} className={`mt-6 w-full ${ui.btnPrimary}`}>
