@@ -10,7 +10,7 @@ import { WaveDivider } from './WaveDivider';
 const CALL_TYPES = [
   { key: 'mayday', label: 'MAYDAY' },
   { key: 'panpan', label: 'PAN PAN' },
-  { key: 'securite', label: 'SECURITE' },
+  { key: 'securite', label: 'SÉCURITÉ' },
 ];
 
 const EMPTY_FORM = { vesselName: '', callSign: '', mmsi: '', position: '', personsOnBoard: '', nature: '', assistance: '' };
@@ -77,14 +77,14 @@ Over`
       );
     } else {
       setDistressScript(
-`SECURITE, SECURITE, SECURITE
+`SÉCURITÉ, SÉCURITÉ, SÉCURITÉ
 All Stations, All Stations, All Stations
 This is ${name}, ${name}, ${name}${callSign}
 Listen on Channel 6
 
 --- Switch to Channel 6 ---
 
-SECURITE
+SÉCURITÉ
 ${name}${callSign}
 ${nature}
 Position: ${pos}
@@ -192,7 +192,7 @@ Out`
               <p className={`text-[${palette.textMuted}] text-sm mt-1`}>Serious safety concern. Help needed but not immediately life threatening.</p>
             </div>
             <div className="p-5 rounded border-l-2 border-[#5B4A6B] bg-[#F3EFF7]">
-              <p className="font-medium text-[#5B4A6B] text-sm">SECURITE (Safety)</p>
+              <p className="font-medium text-[#5B4A6B] text-sm">SÉCURITÉ (Safety)</p>
               <p className={`text-[${palette.textMuted}] text-sm mt-1`}>Important navigational or weather warning for other vessels.</p>
             </div>
           </div>

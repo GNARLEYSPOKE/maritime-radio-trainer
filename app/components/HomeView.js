@@ -11,7 +11,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 const QUICK_LINKS = [
   { key: 'study', label: 'Study & Quiz', sub: '9 sections · 92 questions', color: palette.teal, icon: '◐' },
   { key: 'phonetic', label: 'Phonetic Trainer', sub: 'Oral exam prep', color: '#5B4A6B', icon: '△' },
-  { key: 'distress', label: 'Distress Calls', sub: 'MAYDAY · PAN PAN · SECURITE', color: palette.coral, icon: '◆' },
+  { key: 'distress', label: 'Distress Calls', sub: 'MAYDAY · PAN PAN · SÉCURITÉ', color: palette.coral, icon: '◆' },
   { key: 'exam', label: 'Practice Exam', sub: '60 questions · 60 minutes', color: '#3B5A4A', icon: '●' },
 ];
 
@@ -178,7 +178,7 @@ export default function HomeView({ currentView, onNavigate, quizScores, onStartS
                   Distress Call Builder
                 </h3>
                 <p className={`text-[${palette.textMuted}] leading-relaxed`}>
-                  Build MAYDAY, PAN PAN, and SECURITE calls with your vessel details. Practice reading them aloud at a measured pace.
+                  Build MAYDAY, PAN PAN, and SÉCURITÉ calls with your vessel details. Practice reading them aloud at a measured pace.
                 </p>
                 <div className={`mt-6 text-sm font-medium text-[${palette.coral}] group-hover:translate-x-2 transition-transform duration-500`}>
                   Build a call →
